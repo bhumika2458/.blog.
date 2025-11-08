@@ -1,0 +1,407 @@
+flutter create securemind
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(const SecureMindApp());
+}
+
+class SecureMindApp extends StatelessWidget {
+  const SecureMindApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'SecureMind',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        fontFamily: 'Roboto',
+        scaffoldBackgroundColor: Colors.grey[100],
+      ),
+      home: const SplashScreen(),
+    );
+  }
+}
+
+// ---------------------- Splash Screen ----------------------
+
+class SplashScreen extends StatefulWidget {
+  const SplashScreen({super.key});
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 2), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (_) => const UserInfoScreen()),
+      );
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: const [
+            Icon(Icons.lock_outline, size: 100, color: Colors.blue),
+            SizedBox(height: 20),
+            Text("SecureMind",
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
+            SizedBox(height: 10),
+            Text("Learn Cybersecurity the Fun Way!",
+                style: TextStyle(fontSize: 16)),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------- User Info Screen ----------------------
+
+class UserInfoScreen extends StatefulWidget {
+  const UserInfoScreen({super.key});
+
+  @override
+  State<UserInfoScreen> createState() => _UserInfoScreenState();
+}
+
+class _UserInfoScreenState extends State<UserInfoScreen> {
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Welcome to SecureMind")),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Enter your details to get started:",
+                style: TextStyle(fontSize: 18)),
+            const SizedBox(height: 20),
+            TextField(
+              controller: _nameController,
+              decoration: const InputDecoration(
+                labelText: "Name",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 15),
+            TextField(
+              controller: _emailController,
+              decoration: const InputDecoration(
+                labelText: "Email ID",
+                border: OutlineInputBorder(),
+              ),
+            ),
+            const SizedBox(height: 25),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_nameController.text.isNotEmpty &&
+                      _emailController.text.isNotEmpty) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => HomeScreen(
+                          name: _nameController.text,
+                          email: _emailController.text,
+                        ),
+                      ),
+                    );
+                  }
+                },
+                child: const Text("Start Learning"),
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------- Home Screen ----------------------
+
+class HomeScreen extends StatefulWidget {
+  final String name;
+  final String email;
+
+  const HomeScreen({super.key, required this.name, required this.email});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  int points = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("SecureMind - Welcome ${widget.name}"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.bar_chart),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => PerformanceScreen(points: points)),
+              );
+            },
+          )
+        ],
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          const Text(
+            "Choose Your Level:",
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 10),
+          levelCard("Level 1: Cyber Terms", Icons.lock, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => CyberTermScreen(onCompleted: addPoints),
+              ),
+            );
+          }),
+          levelCard("Level 2: Quiz Challenge", Icons.quiz, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => QuizScreen(onCompleted: addPoints),
+              ),
+            );
+          }),
+          levelCard("Level 3: Practice Programs", Icons.computer, () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => ExampleProgramScreen(),
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+
+  Widget levelCard(String title, IconData icon, VoidCallback onTap) {
+    return Card(
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      elevation: 3,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: ListTile(
+        leading: Icon(icon, color: Colors.blue, size: 40),
+        title: Text(title, style: const TextStyle(fontSize: 18)),
+        trailing: const Icon(Icons.arrow_forward_ios),
+        onTap: onTap,
+      ),
+    );
+  }
+
+  void addPoints(int newPoints) {
+    setState(() {
+      points += newPoints;
+    });
+  }
+}
+
+// ---------------------- Cyber Terms ----------------------
+
+class CyberTermScreen extends StatelessWidget {
+  final Function(int) onCompleted;
+  const CyberTermScreen({super.key, required this.onCompleted});
+
+  @override
+  Widget build(BuildContext context) {
+    final terms = [
+      {"term": "Phishing", "desc": "A scam to steal your info via fake messages."},
+      {"term": "Malware", "desc": "Software designed to harm or exploit devices."},
+      {"term": "Firewall", "desc": "A security system that blocks unwanted traffic."},
+    ];
+
+    return Scaffold(
+      appBar: AppBar(title: const Text("Cybersecurity Terms")),
+      body: ListView.builder(
+        itemCount: terms.length,
+        itemBuilder: (context, index) {
+          return Card(
+            margin: const EdgeInsets.all(10),
+            child: ListTile(
+              leading: const Icon(Icons.security),
+              title: Text(terms[index]['term']!),
+              subtitle: Text(terms[index]['desc']!),
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          onCompleted(10);
+          Navigator.pop(context);
+        },
+        child: const Icon(Icons.check),
+      ),
+    );
+  }
+}
+
+// ---------------------- Quiz Screen ----------------------
+
+class QuizScreen extends StatefulWidget {
+  final Function(int) onCompleted;
+  const QuizScreen({super.key, required this.onCompleted});
+
+  @override
+  State<QuizScreen> createState() => _QuizScreenState();
+}
+
+class _QuizScreenState extends State<QuizScreen> {
+  int score = 0;
+  int questionIndex = 0;
+
+  final questions = [
+    {
+      'q': 'What is a strong password?',
+      'options': ['abcd1234', 'password', 'P@ssw0rd!2024', '123456'],
+      'answer': 'P@ssw0rd!2024'
+    },
+    {
+      'q': 'What does HTTPS mean?',
+      'options': [
+        'Hyper Text Transfer Protocol Secure',
+        'High Tech Transfer System',
+        'Hack Transfer Tracking System',
+        'None of these'
+      ],
+      'answer': 'Hyper Text Transfer Protocol Secure'
+    },
+  ];
+
+  void answerQuestion(String answer) {
+    if (answer == questions[questionIndex]['answer']) {
+      score += 5;
+    }
+    if (questionIndex < questions.length - 1) {
+      setState(() {
+        questionIndex++;
+      });
+    } else {
+      widget.onCompleted(score);
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final q = questions[questionIndex];
+    return Scaffold(
+      appBar: AppBar(title: const Text("Quiz Challenge")),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Q${questionIndex + 1}. ${q['q']}",
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 20),
+            ...(q['options'] as List<String>).map((opt) {
+              return Card(
+                child: ListTile(
+                  title: Text(opt),
+                  onTap: () => answerQuestion(opt),
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------- Example Programs ----------------------
+
+class ExampleProgramScreen extends StatelessWidget {
+  const ExampleProgramScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    const exampleCode = '''
+# Example: Simple Password Strength Checker in Python
+
+password = input("Enter a password: ")
+
+if len(password) < 8:
+    print("Weak password! Try adding more characters.")
+elif not any(ch.isdigit() for ch in password):
+    print("Add some numbers for better strength.")
+elif not any(ch.isupper() for ch in password):
+    print("Add uppercase letters for better strength.")
+else:
+    print("Your password looks strong!")
+''';
+
+    return Scaffold(
+      appBar: AppBar(title: const Text("Example Program")),
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+        child: SelectableText(
+          exampleCode,
+          style: const TextStyle(
+            fontFamily: 'monospace',
+            fontSize: 14,
+            color: Colors.black87,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+// ---------------------- Performance Screen ----------------------
+
+class PerformanceScreen extends StatelessWidget {
+  final int points;
+  const PerformanceScreen({super.key, required this.points});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("Your Performance")),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.emoji_events, color: Colors.orange, size: 100),
+            const SizedBox(height: 20),
+            Text("Total Points: $points",
+                style: const TextStyle(fontSize: 26, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 10),
+            Text(
+              points > 20 ? "Excellent! Keep it up 🔐" : "Keep practicing 💪",
+              style: const TextStyle(fontSize: 18),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
