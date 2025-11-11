@@ -75,7 +75,6 @@
     <h2>Welcome to SecureMind</h2>
     <p>Enter your details to get started:</p>
     <input id="name" type="text" placeholder="Your Name" /><br />
-    <input id="email" type="email" placeholder="Your Email ID" /><br />
     <button onclick="startLearning()">Start Learning</button>
   </div>
 
@@ -98,12 +97,7 @@
   <div id="terms" class="screen">
     <h2>Cybersecurity Terms</h2>
     <div class="card"><strong>Phishing:</strong> A scam to steal your info via fake messages.</div>
-    <div class="card"><strong>Malware:</strong> Software designed to harm or exploit devices.</div>
-    <div class="card"><strong>Firewall:</strong> A security system that blocks unwanted traffic.</div>
-    <button onclick="completeLevel(10)">✅ Done</button>
-  </div>
-
-  <!-- Quiz Screen -->
+     <!-- Quiz Screen -->
   <div id="quiz" class="screen">
     <h2>Quiz Challenge</h2>
     <div id="question"></div>
@@ -121,7 +115,70 @@
     let currentScreen = 'splash';
     let points = 0;
     let name = '';
-    let email = '';
+    let quizIndex = 0;
+
+    const quizData = [
+      {
+        q:"What does “phishing” mean in the context of cybersecurity?"
+Options:
+"A. A method of securely sending emails to many people"
+"B. A cyber-attack where someone pretends to be a trusted party to steal information"
+"C. The process of encrypting files before sending them"
+"D. A harmless prank involving fake login pages"
+"Answer: B. A cyber-attack where someone pretends to be a trusted party to steal information"
+        q:“According to NIST guidance, what is the minimum recommended length for a password (or memorised secret) when you must choose one?”
+Options:
+
+"A. 8 characters"
+"B. 10 characters"
+"C. 12 characters"
+"D. At least 15 characters"
+"Answer: D. At least 15 characters"
+"Reason: NIST recommends 15+ characters for greater security." 
+   q: “Which of the following is the weakest password?”
+Options:
+"A. ChaiLover@Sunset92!"
+"B. Spring2024!"
+"C. john123"
+"D. dS^EK+ThfAw2@jk"
+"Answer: C. john123"
+"Reason: It’s short, contains a common name + simple number; doesn’t meet strong password criteria."
+    q:“What is a strong password?”
+Options:
+"A. abcd1234"
+"B. password"
+"C. P@ssw0rd!2024"
+"D. 123456"
+"Answer: C. P@ssw0rd!2024"
+"Reason: It uses upper + lower case, numbers & symbol, not just a simple word or sequence."
+    q:"What is the main purpose of phishing attacks?"
+Options:
+"A. To politely ask users if they want to sign up for a newsletter"
+"B. To obtain sensitive personal or financial information or install malware by deception"
+"C. To send large files faster between users"
+"D. To test users’ internet speed"
+"Answer: B. To obtain sensitive personal or financial information or install malware by deception"
+  },
+     ]; 
+    <div class="card"><strong>Malware:</strong> Software designed to harm or exploit devices.</div>
+       <!-- Quiz Screen -->
+  <div id="quiz" class="screen">
+    <h2>Quiz Challenge</h2>
+    <div id="question"></div>
+    <div id="options"></div>
+  </div>
+
+  <!-- Performance Screen -->
+  <div id="performance" class="screen">
+    <h2>Your Performance</h2>
+    <div id="pointsDisplay"></div>
+    <button onclick="resetGame()">Restart</button>
+  </div>
+
+  <script>
+    let currentScreen = 'splash';
+    let points = 0;
+    let name = '';
     let quizIndex = 0;
 
     const quizData = [
@@ -130,17 +187,37 @@
         options: ["abcd1234", "password", "P@ssw0rd!2024", "123456"],
         answer: "P@ssw0rd!2024"
       },
+     ]; 
+    <div class="card"><strong>Firewall:</strong> A security system that blocks unwanted traffic.</div>
+       <!-- Quiz Screen -->
+  <div id="quiz" class="screen">
+    <h2>Quiz Challenge</h2>
+    <div id="question"></div>
+    <div id="options"></div>
+  </div>
+
+  <!-- Performance Screen -->
+  <div id="performance" class="screen">
+    <h2>Your Performance</h2>
+    <div id="pointsDisplay"></div>
+    <button onclick="resetGame()">Restart</button>
+  </div>
+
+  <script>
+    let currentScreen = 'splash';
+    let points = 0;
+    let name = '';
+    let quizIndex = 0;
+
+    const quizData = [
       {
-        q: "What does HTTPS mean?",
-        options: [
-          "Hyper Text Transfer Protocol Secure",
-          "High Tech Transfer System",
-          "Hack Transfer Tracking System",
-          "None of these"
-        ],
-        answer: "Hyper Text Transfer Protocol Secure"
-      }
-    ];
+        q: "What is a strong password?",
+        options: ["abcd1234", "password", "P@ssw0rd!2024", "123456"],
+        answer: "P@ssw0rd!2024"
+      },
+     ]; 
+    <button onclick="completeLevel(10)">✅ Done</button>
+  </div>
 
     function showScreen(id) {
       document.getElementById(currentScreen).classList.remove('active');
@@ -151,13 +228,12 @@
     }
 
     function startLearning() {
-      name = document.getElementById("name").value.trim();
-      email = document.getElementById("email").value.trim();
-      if (name && email) {
+      name = document.getElementById("name").value.trim()
+      if (name) {
         document.getElementById("welcome").innerText = "Welcome, " + name + "!";
         showScreen('home');
       } else {
-        alert("Please enter both name and email.");
+        alert("Please enter name.");
       }
     }
 
