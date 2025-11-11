@@ -5,61 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SecureMind</title>
   <style>
-    * {
-      box-sizing: border-box;
-      font-family: "Roboto", sans-serif;
-    }
-    body {
-      margin: 0;
-      background-color: #f3f3f3;
-      color: #333;
-    }
-    .screen {
-      display: none;
-      padding: 20px;
-      text-align: center;
-      animation: fade 0.3s ease;
-    }
-    .active {
-      display: block;
-    }
-    @keyframes fade {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-    h1 {
-      color: #1565c0;
-    }
-    button {
-      background-color: #1565c0;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      margin: 10px;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #0d47a1;
-    }
-    .card {
-      background: white;
-      margin: 10px auto;
-      padding: 15px;
-      border-radius: 10px;
-      max-width: 400px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      text-align: left;
-    }
-    input {
-      width: 90%;
-      padding: 8px;
-      margin: 8px;
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      font-size: 16px;
-    }
+    * { box‑sizing: border‑box; font‑family: "Roboto", sans‑serif; }
+    body { margin:0; background‑color:#f3f3f3; color:#333; }
+    .screen { display:none; padding:20px; text‑align:center; animation: fade 0.3s ease; }
+    .active { display:block; }
+    @keyframes fade { from {opacity:0;} to {opacity:1;} }
+    h1 { color:#1565c0; }
+    button { background‑color:#1565c0; color:white; border:none; padding:10px 20px; border‑radius:6px; cursor:pointer; margin:10px; font‑size:16px; }
+    button:hover { background‑color:#0d47a1; }
+    .card { background:white; margin:10px auto; padding:15px; border‑radius:10px; max‑width:400px; box‑shadow:0 2px 6px rgba(0,0,0,0.1); text‑align:left; cursor:pointer; }
+    input { width:90%; padding:8px; margin:8px 0; border‑radius:4px; border:1px solid #ccc; font‑size:16px; }
   </style>
 </head>
 <body>
@@ -74,13 +29,13 @@
   <div id="userinfo" class="screen">
     <h2>Welcome to SecureMind</h2>
     <p>Enter your details to get started:</p>
-    <input id="name" type="text" placeholder="Your Name" /><br />
+    <input id="nameInput" type="text" placeholder="Your Name" /><br />
     <button onclick="startLearning()">Start Learning</button>
   </div>
 
   <!-- Home Screen -->
   <div id="home" class="screen">
-    <h2 id="welcome"></h2>
+    <h2 id="welcomeMessage"></h2>
     <p>Choose Your Level:</p>
     <div class="card" onclick="showScreen('terms')">
       <strong>Level 1: Cyber Terms</strong>
@@ -97,99 +52,13 @@
   <div id="terms" class="screen">
     <h2>Cybersecurity Terms</h2>
     <div class="card"><strong>Phishing:</strong> A scam to steal your info via fake messages.</div>
-     <!-- Quiz Screen -->
-  <div id="quiz" class="screen">
-    <h2>Quiz Challenge</h2>
-    <div id="question"></div>
-    <div id="options"></div>
-  </div>
-
-  <!-- Performance Screen -->
-  <div id="performance" class="screen">
-    <h2>Your Performance</h2>
-    <div id="pointsDisplay"></div>
-    <button onclick="resetGame()">Restart</button>
-  </div>
-
-  <script>
-    let currentScreen = 'splash';
-    let points = 0;
-    let name = '';
-    let quizIndex = 0;
-
-    const quizData = [
-      {
-        q:"What does “phishing” mean in the context of cybersecurity?"
-Options:
-"A. A method of securely sending emails to many people"
-"B. A cyber-attack where someone pretends to be a trusted party to steal information"
-"C. The process of encrypting files before sending them"
-"D. A harmless prank involving fake login pages"
-"Answer: B. A cyber-attack where someone pretends to be a trusted party to steal information"
-        q:“According to NIST guidance, what is the minimum recommended length for a password (or memorised secret) when you must choose one?”
-Options:
-
-"A. 8 characters"
-"B. 10 characters"
-"C. 12 characters"
-"D. At least 15 characters"
-"Answer: D. At least 15 characters"
-"Reason: NIST recommends 15+ characters for greater security." 
-   q: “Which of the following is the weakest password?”
-Options:
-"A. ChaiLover@Sunset92!"
-"B. Spring2024!"
-"C. john123"
-"D. dS^EK+ThfAw2@jk"
-"Answer: C. john123"
-"Reason: It’s short, contains a common name + simple number; doesn’t meet strong password criteria."
-    q:“What is a strong password?”
-Options:
-"A. abcd1234"
-"B. password"
-"C. P@ssw0rd!2024"
-"D. 123456"
-"Answer: C. P@ssw0rd!2024"
-"Reason: It uses upper + lower case, numbers & symbol, not just a simple word or sequence."
-    q:"What is the main purpose of phishing attacks?"
-Options:
-"A. To politely ask users if they want to sign up for a newsletter"
-"B. To obtain sensitive personal or financial information or install malware by deception"
-"C. To send large files faster between users"
-"D. To test users’ internet speed"
-"Answer: B. To obtain sensitive personal or financial information or install malware by deception"
-  },
-     ]; 
     <div class="card"><strong>Malware:</strong> Software designed to harm or exploit devices.</div>
-       <!-- Quiz Screen -->
-  <div id="quiz" class="screen">
-    <h2>Quiz Challenge</h2>
-    <div id="question"></div>
-    <div id="options"></div>
-  </div>
-
-  <!-- Performance Screen -->
-  <div id="performance" class="screen">
-    <h2>Your Performance</h2>
-    <div id="pointsDisplay"></div>
-    <button onclick="resetGame()">Restart</button>
-  </div>
-
-  <script>
-    let currentScreen = 'splash';
-    let points = 0;
-    let name = '';
-    let quizIndex = 0;
-
-    const quizData = [
-      {
-        q: "What is a strong password?",
-        options: ["abcd1234", "password", "P@ssw0rd!2024", "123456"],
-        answer: "P@ssw0rd!2024"
-      },
-     ]; 
     <div class="card"><strong>Firewall:</strong> A security system that blocks unwanted traffic.</div>
-       <!-- Quiz Screen -->
+    <div class="card"><strong>Encryption:</strong> The process of converting readable data into encoded/​unreadable form so only authorised users can decode it. :contentReference[oaicite:0]{index=0}</div>
+    <button onclick="showScreen('home')">Back to Home</button>
+  </div>
+
+  <!-- Quiz Screen -->
   <div id="quiz" class="screen">
     <h2>Quiz Challenge</h2>
     <div id="question"></div>
@@ -200,86 +69,166 @@ Options:
   <div id="performance" class="screen">
     <h2>Your Performance</h2>
     <div id="pointsDisplay"></div>
+    <button onclick="showScreen('thankyou')">Finish & See Message</button>
+  </div>
+
+  <!-- Thank You Screen -->
+  <div id="thankyou" class="screen">
+    <h2>🎉 Congratulations!</h2>
+    <p>Thank you for completing SecureMind. Keep learning and stay safe online!</p>
     <button onclick="resetGame()">Restart</button>
   </div>
 
   <script>
     let currentScreen = 'splash';
     let points = 0;
-    let name = '';
+    let userName = '';
     let quizIndex = 0;
 
     const quizData = [
       {
-        q: "What is a strong password?",
-        options: ["abcd1234", "password", "P@ssw0rd!2024", "123456"],
-        answer: "P@ssw0rd!2024"
+        q: "What does \"phishing\" mean in the context of cybersecurity?",
+        options: [
+          "A. A method of securely sending emails to many people",
+          "B. A cyber‑attack where someone pretends to be a trusted party to steal information",
+          "C. The process of encrypting files before sending them",
+          "D. A harmless prank involving fake login pages"
+        ],
+        answer: "B. A cyber‑attack where someone pretends to be a trusted party to steal information"
       },
-     ]; 
-    <button onclick="completeLevel(10)">✅ Done</button>
-  </div>
+      {
+        q: "According to NIST guidance, what is the minimum recommended length for a password (or memorised secret)?",
+        options: [
+          "A. 8 characters",
+          "B. 10 characters",
+          "C. 12 characters",
+          "D. At least 15 characters"
+        ],
+        answer: "D. At least 15 characters"
+      },
+      {
+        q: "Which of the following is the weakest password?",
+        options: [
+          "A. ChaiLover@Sunset92!",
+          "B. Spring2024!",
+          "C. john123",
+          "D. dS^EK+ThfAw2@jk"
+        ],
+        answer: "C. john123"
+      },
+      {
+        q: "What is a strong password?",
+        options: [
+          "A. abcd1234",
+          "B. password",
+          "C. P@ssw0rd!2024",
+          "D. 123456"
+        ],
+        answer: "C. P@ssw0rd!2024"
+      },
+      {
+        q: "What is the main purpose of phishing attacks?",
+        options: [
+          "A. To politely ask users if they want to sign up for a newsletter",
+          "B. To obtain sensitive personal or financial information or install malware by deception",
+          "C. To send large files faster between users",
+          "D. To test users’ internet speed"
+        ],
+        answer: "B. To obtain sensitive personal or financial information or install malware by deception"
+      },
+      {
+        q: "What does “encryption” refer to in cybersecurity?",
+        options: [
+          "A. Hiding a device inside a safe",
+          "B. Converting readable data into an unreadable form so only authorised users can access it",
+          "C. Sending plain‑text emails without protection",
+          "D. Running software without user permission"
+        ],
+        answer: "B. Converting readable data into an unreadable form so only authorised users can access it"
+      },
+      {
+        q: "Which of the following is an example of malware?",
+        options: [
+          "A. A legitimate update from your OS maker",
+          "B. A virus, worm or ransomware designed to harm or exploit a system",
+          "C. A user manually deleting old files",
+          "D. A benign app from the official store"
+        ],
+        answer: "B. A virus, worm or ransomware designed to harm or exploit a system"
+      }
+    ];
 
     function showScreen(id) {
       document.getElementById(currentScreen).classList.remove('active');
       document.getElementById(id).classList.add('active');
       currentScreen = id;
-      if (id === 'quiz') loadQuiz();
-      if (id === 'performance') showPerformance();
-    }
-
-    function startLearning() {
-      name = document.getElementById("name").value.trim()
-      if (name) {
-        document.getElementById("welcome").innerText = "Welcome, " + name + "!";
-        showScreen('home');
-      } else {
-        alert("Please enter name.");
+      if (id === 'quiz') {
+        quizIndex = 0;
+        points = 0;
+        loadQuiz();
+      }
+      if (id === 'performance') {
+        showPerformance();
       }
     }
 
-    function completeLevel(pts) {
-      points += pts;
-      alert("Great job! You earned " + pts + " points!");
-      showScreen('home');
+    function startLearning() {
+      const input = document.getElementById("nameInput").value.trim();
+      if (input) {
+        userName = input;
+        document.getElementById("welcomeMessage").innerText = "Welcome, " + userName + "!";
+        showScreen('home');
+      } else {
+        alert("Please enter your name.");
+      }
     }
 
     function loadQuiz() {
+      showQuestion();
+    }
+
+    function showQuestion() {
       const qData = quizData[quizIndex];
       document.getElementById('question').innerHTML = "<h3>Q" + (quizIndex + 1) + ". " + qData.q + "</h3>";
-      const opts = qData.options.map(opt =>
+      const optsHtml = qData.options.map(opt =>
         `<button onclick="answerQuestion('${opt}')">${opt}</button>`
       ).join("");
-      document.getElementById('options').innerHTML = opts;
+      document.getElementById('options').innerHTML = optsHtml;
     }
 
     function answerQuestion(ans) {
-      if (ans === quizData[quizIndex].answer) points += 5;
+      if (ans === quizData[quizIndex].answer) {
+        points += 5;
+      }
       quizIndex++;
       if (quizIndex < quizData.length) {
-        loadQuiz();
+        showQuestion();
       } else {
-        alert("Quiz completed! You earned " + points + " points total.");
-        quizIndex = 0;
-        showScreen('home');
+        alert("Quiz completed! You scored " + points + " points.");
+        showScreen('performance');
       }
     }
 
     function showPerformance() {
-      const msg = points > 20 ? "Excellent! Keep it up 🔐" : "Keep practicing 💪";
+      const message = (points >= (quizData.length * 5 * 0.7)) ?
+        "Excellent! Keep it up 🔐" : "Good effort! Keep practising 💪";
       document.getElementById('pointsDisplay').innerHTML =
-        `<h3>Total Points: ${points}</h3><p>${msg}</p>`;
+        `<h3>Total Points: ${points}</h3><p>${message}</p>`;
     }
 
     function resetGame() {
       points = 0;
       quizIndex = 0;
+      userName = '';
+      document.getElementById("nameInput").value = '';
       showScreen('userinfo');
     }
 
-    // Splash delay
+    // Auto‑transition from splash screen to user info screen
     setTimeout(() => {
       showScreen('userinfo');
     }, 2000);
   </script>
+
 </body>
 </html>
